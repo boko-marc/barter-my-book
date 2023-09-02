@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -21,10 +25,42 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
-    public function register(): void
+    public function render($request, Throwable $exception)
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'errors' => $exception->validator->getMessageBag()], 422);
+        }
+
+        
+        if ($exception instanceof NotFoundHttpException) {
+            return response([
+                'message' => "Url introuvable."
+            ], 404);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response([
+                'message' => "Aucune instance du model {$exception->getModel()} ne correspond à l'id fourni "
+            ], 404);
+        }
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response([
+                'message' => "Invalide verbe HTTP"
+            ], 405);
+        }
+
+            $rendered = parent::render($request, $exception);
+            return response([
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine()
+            ], $rendered->getStatusCode());
+
+
+
     }
 }
