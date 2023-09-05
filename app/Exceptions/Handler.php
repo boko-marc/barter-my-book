@@ -30,18 +30,23 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ValidationException) {
             return response()->json([
-            'success' => false,
-            'message' => 'Validation errors',
-            'errors' => $exception->validator->getMessageBag()], 422);
+                'success' => false,
+                'message' => 'Validation errors',
+                'errors' => $exception->validator->getMessageBag()
+            ], 422);
         }
 
-        
+
         if ($exception instanceof NotFoundHttpException) {
             return response([
                 'message' => "Url introuvable."
             ], 404);
         }
-
+        if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+            return response([
+                'message' => "Non authentifié"
+            ], 401);
+        }
         if ($exception instanceof ModelNotFoundException) {
             return response([
                 'message' => "Aucune instance du model {$exception->getModel()} ne correspond à l'id fourni "
@@ -53,14 +58,11 @@ class Handler extends ExceptionHandler
             ], 405);
         }
 
-            $rendered = parent::render($request, $exception);
-            return response([
-                'message' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine()
-            ], $rendered->getStatusCode());
-
-
-
+        $rendered = parent::render($request, $exception);
+        return response([
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine()
+        ], $rendered->getStatusCode());
     }
 }

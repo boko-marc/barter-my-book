@@ -30,6 +30,7 @@ class User extends Authenticatable
         'class',
         "register_number",
         'password',
+        'is_activated'
     ];
 
     protected $keyType='string';
