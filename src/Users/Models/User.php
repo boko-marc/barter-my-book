@@ -5,12 +5,14 @@ namespace Core\Users\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Traits\HasUUID;
+use Core\Models\Books;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Core\Schools\Models\School;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
@@ -33,7 +35,7 @@ class User extends Authenticatable
         'is_activated'
     ];
 
-    protected $keyType='string';
+    protected $keyType = 'string';
 
 
     /**
@@ -52,7 +54,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(School::class);
     }
-
+    public function books(): HasMany
+    {
+        return $this->hasMany(Books::class);
+    }
     /**
      * The attributes that should be cast.
      *
