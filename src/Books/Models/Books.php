@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Models;
+namespace Core\Books\Models;
 
 use App\Traits\HasUUID;
 use Core\Users\Models\User;

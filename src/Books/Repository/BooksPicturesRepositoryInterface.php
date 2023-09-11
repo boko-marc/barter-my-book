@@ -4,8 +4,6 @@ namespace Core\Books\Repository;
 
 use Core\Repository\Eloquent\EloquentRepositoryInterface;
 
-interface BooksRepositoryInterface extends EloquentRepositoryInterface
+interface BooksPicturesRepositoryInterface extends EloquentRepositoryInterface
 {
-
-    
 }

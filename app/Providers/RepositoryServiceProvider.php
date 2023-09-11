@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Core\Books\Repository\BooksPicturesRepository;
+use Core\Books\Repository\BooksPicturesRepositoryInterface;
 use Core\Books\Repository\BooksRepository;
 use Core\Books\Repository\BooksRepositoryInterface;
 use Core\Repository\Eloquent\BaseRepository;
@@ -21,6 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(EloquentRepositoryInterface::class, BaseRepository::class);
         $this->app->bind(BooksRepositoryInterface::class, BooksRepository::class);
+        $this->app->bind(BooksPicturesRepositoryInterface::class, BooksPicturesRepository::class);
         $this->app->bind(UsersRepositoryInterface::class, UsersRepository::class);
         $this->app->bind(SchoolRepositoryInterface::class, SchoolRepository::class);
     }

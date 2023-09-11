@@ -5,7 +5,7 @@ namespace Core\Users\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Traits\HasUUID;
-use Core\Models\Books;
+use Core\Books\Models\Books;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,6 +58,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Books::class);
     }
+
+    
     /**
      * The attributes that should be cast.
      *

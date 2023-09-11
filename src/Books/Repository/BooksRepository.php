@@ -2,7 +2,7 @@
 
 namespace Core\Books\Repository;
 
-use Core\Models\Books;
+use Core\Books\Models\Books;
 use Core\Repository\Eloquent\BaseRepository;
 
 class BooksRepository extends BaseRepository implements BooksRepositoryInterface
