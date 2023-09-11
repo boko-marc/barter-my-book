@@ -3,9 +3,11 @@
 namespace Core\Books\Controllers;
 
 use Core\Books\Repository\BooksRepositoryInterface;
+use Core\Books\Requests\BooksRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Core\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class BooksController extends Controller
 {
@@ -14,5 +16,9 @@ class BooksController extends Controller
     public function __construct(BooksRepositoryInterface $booksRepository)
     {
         $this->booksRepository = $booksRepository;
+    }
+
+    public function store(BooksRequest $resquest): Response {
+        
     }
 }
