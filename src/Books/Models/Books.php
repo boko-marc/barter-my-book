@@ -42,4 +42,15 @@ class Books extends Model
     {
         return $this->hasMany(BooksPictures::class);
     }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($book) {
+            // delete books pictures associated
+            foreach ($book->booksPictues as $picture) {
+                $picture->delete();
+            }
+        });
+    }
 }

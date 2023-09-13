@@ -98,4 +98,8 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         return $model->update($data) ? $model : false;
     }
+    public function delete(Model $model): bool
+    {
+        return $model->delete();
+    }
 }

@@ -61,4 +61,12 @@ interface EloquentRepositoryInterface
     * @return Model
     */
    public function update(array $data, Model $model): Model|FalseType;
+
+   /**
+    * Delete  row.
+    *
+    * @param Model $model
+    * @return bool
+    */
+   public function delete(Model $model): bool;
 }

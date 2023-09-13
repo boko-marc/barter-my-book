@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/', [BooksController::class, 'store']);
+    Route::get('/{book}', [BooksController::class, 'show'])->where('book', '[0-9]+');
+    Route::delete('/{book}', [BooksController::class, 'delete'])->where('book', '[0-9]+');
+    Route::patch('/{book}', [BooksController::class, 'update'])->where('book', '[0-9]+');
+    Route::get('/by', [BooksController::class, 'getBooksByParameters']);
 });
