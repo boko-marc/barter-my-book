@@ -71,7 +71,10 @@ class BooksController extends Controller
         return response(["message" => "Livre modifié avec succès", "data" => $bookUpdated], 200);
     }
 
-    public function getBooksByParameters() {
-        
+    public function getBooksByParameters(Request $request) {
+        $querys = $request->query();
+        if(in_array('owner',$querys) && !is_null($querys['owner'])) {
+            $conditions = []
+        } 
     }
 }
