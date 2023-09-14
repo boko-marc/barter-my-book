@@ -71,10 +71,33 @@ class BooksController extends Controller
         return response(["message" => "Livre modifié avec succès", "data" => $bookUpdated], 200);
     }
 
-    public function getBooksByParameters(Request $request) {
+    public function getBooksByParameters(Request $request)
+    {
         $querys = $request->query();
-        if(in_array('owner',$querys) && !is_null($querys['owner'])) {
-            $conditions = []
-        } 
+
+        $conditions = [];
+
+        if (array_key_exists('owner', $querys) && !is_null($querys['owner'])) {
+            $conditions[] = ['owner_id', $querys['owner']];
+        }
+
+        if (array_key_exists('class', $querys) && !is_null($querys['class'])) {
+            $class = [0, 1, 2, 3, 4, 5, 6];
+            if (!in_array($querys["class"], $class)) {
+                return response(['message' => "Veuillez sélectionner une classe entre la 6ème et la terminale"], 422);
+            }
+            $conditions[] = ['class', $querys['class']];
+        }
+
+        if (array_key_exists('subject', $querys) && !is_null($querys['subject'])) {
+            $subjects = ["mathematiques", "pct", "francais", "anglais", "allemand", "svt", "philosophie"];
+            if (!in_array($querys["subject"], $subjects)) {
+                return response(['message' => "Veuillez sélectionner une matière parmi la liste de nos matières disponibles"], 422);
+            }
+            $conditions[] = ['subject', $querys['subject']];
+        }
+
+        $books = $this->booksRepository->findBy($conditions, ['owner'],['booksPictues']);
+        return response(['message' => "Livres récupérés avec  succès", "data" => $books], 200);
     }
 }

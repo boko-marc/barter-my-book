@@ -58,14 +58,22 @@ class BaseRepository implements EloquentRepositoryInterface
      * @param $relations
      * @return Collection
      */
-    public function findBy(array $conditions, array $relations = []): Collection
+    public function findBy(array $conditions, array $relations = [], array $loads = []): Collection
     {
         $query = $this
             ->model
             ->with($relations)
             ->where($conditions);
-        return $query->get();
+    
+        $results = $query->get();
+    
+        if (!empty($loads)) {
+            $results->load($loads);
+        }
+    
+        return $results;
     }
+    
 
     public function all(array $columns = ['*'], array $relations = []): Collection
     {
