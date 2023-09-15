@@ -32,8 +32,8 @@ class BooksRequest extends FormRequest
                 'condition' => "required|integer|in:1,2,3", // 1 Moyen 2 Bon état 3 Neuf
                 'description' => "nullable|string",
                 'class' => "nullable|in:6,5,4,3,2,1,0",
-                "books_pictures" => 'present|array',
-                "books_pictures.*" => "image"
+                "book_pictures" => 'present|array',
+                "book_pictures.*" => "image"
 
             ];
         } elseif ($this->isMethod('patch')) {

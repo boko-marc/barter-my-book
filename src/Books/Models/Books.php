@@ -38,19 +38,19 @@ class Books extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function booksPictues(): HasMany
+    public function booksPictures(): HasMany
     {
-        return $this->hasMany(BooksPictures::class);
+        return $this->hasMany(BooksPictures::class,'book_id');
     }
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($book) {
-            // delete books pictures associated
-            foreach ($book->booksPictues as $picture) {
-                $picture->delete();
-            }
-        });
-    }
+    //     static::deleting(function ($book) {
+    //         // delete books pictures associated
+    //         foreach ($book->booksPictures as $picture) {
+    //             $picture->delete();
+    //         }
+    //     });
+    // }
 }

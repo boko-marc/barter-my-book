@@ -37,8 +37,8 @@ class BooksController extends Controller
         $otherBookData = ['added_at' => Carbon::now()];
         $book = $this->booksRepository->make(array_merge($bookData, $otherBookData));
         $book = $this->booksRepository->associate($book, ['owner' => Auth::user()]);
-        if (count($bookData['books_pictures']) > 0) {
-            foreach ($bookData['books_pictures'] as $bookPicture) {
+        if (count($bookData['book_pictures']) > 0) {
+            foreach ($bookData['book_pictures'] as $bookPicture) {
                 $bookPictureName = $this->storeImage($bookPicture, $book, 'books-pictures-folder');
                 $newBookPicture = $this->booksPicturesRepository->make([
                     'image' => $bookPictureName
@@ -46,13 +46,13 @@ class BooksController extends Controller
                 $newBookPicture = $this->booksPicturesRepository->associate($newBookPicture, ['book' => $book]);
             }
         }
-        return response(['message' => "Livre enregistré avec succès", 'data' => $book], 200);
+        return response(['message' => "Livre enregistré avec succès", 'data' => $book->load('booksPictures')], 200);
     }
 
     public function show(Books $book)
     {
         Gate::authorize('owner', $book);
-        $book = $this->booksRepository->findOneBy([['id' => $book->id]], ['booksPictues', 'owner']);
+        $book = $this->booksRepository->findOneBy([['id',$book->id]], ['booksPictures', 'owner']);
         return response(['message' => 'Livre récupéré avec succès', 'data' => $book], 200);
     }
 
@@ -97,7 +97,7 @@ class BooksController extends Controller
             $conditions[] = ['subject', $querys['subject']];
         }
 
-        $books = $this->booksRepository->findBy($conditions, ['owner'],['booksPictues']);
+        $books = $this->booksRepository->findBy($conditions, ['owner', 'booksPictures']);
         return response(['message' => "Livres récupérés avec  succès", "data" => $books], 200);
     }
 }

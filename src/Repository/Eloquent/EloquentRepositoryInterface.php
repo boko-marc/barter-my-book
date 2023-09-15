@@ -32,7 +32,13 @@ interface EloquentRepositoryInterface
     */
    public function findOneBy(array $conditions, array $relations = []): ?Model;
 
-   public function findBy(array $conditions, array $relations = [], array $loads = []): Collection;
+   /**
+    * Find one model instance
+    * @param $conditions
+    *@param $relations
+    * @return Collection
+    */
+   public function findBy(array $conditions, array $relations = []): Collection;
 
    /**
     * Get all models.
